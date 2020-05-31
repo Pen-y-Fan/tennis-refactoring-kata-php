@@ -1,2 +1,4 @@
 .idea
-/vendor/
+/vendor//report.xml 
+/.phpstorm.meta.php 
+/vendor 
