@@ -7,7 +7,7 @@ namespace Tests;
 use TennisGame\TennisGame3;
 
 /**
- * TennisGame1 test case.
+ * TennisGame3 test case.
  */
 final class TennisGame3Test extends TestMaster
 {
@@ -26,6 +26,6 @@ final class TennisGame3Test extends TestMaster
     public function testScores(int $score1, int $score2, string $expectedResult): void
     {
         $this->seedScores($score1, $score2);
-        $this->assertSame($expectedResult, $this->game->getScore());
+        $this->assertSame($expectedResult, $this->game->getScore(), "Score: Player1 {$score1} vs player2 {$score2}");
     }
 }

@@ -9,53 +9,95 @@ final class TennisGame3 implements TennisGame
     /**
      * @var string[]
      */
-    private const P = ['Love', 'Fifteen', 'Thirty', 'Forty'];
+    private const SCORE = ['Love', 'Fifteen', 'Thirty', 'Forty'];
 
     /**
      * @var int
      */
-    private $p2 = 0;
+    private $player2Points = 0;
 
     /**
      * @var int
      */
-    private $p1 = 0;
+    private $player1Points = 0;
 
     /**
-     * @var string
+     * @var Player
      */
-    private $p1N = '';
+    private $player1;
 
     /**
-     * @var string
+     * @var Player
      */
-    private $p2N = '';
+    private $player2;
 
-    public function __construct(string $p1N, string $p2N)
+    public function __construct(string $player1Name, string $player2Name)
     {
-        $this->p1N = $p1N;
-        $this->p2N = $p2N;
+        $this->player1 = new Player($player1Name);
+        $this->player2 = new Player($player2Name);
     }
 
     public function getScore(): string
     {
-        if ($this->p1 < 4 && $this->p2 < 4 && ! ($this->p1 + $this->p2 === 6)) {
-            $s = self::P[$this->p1];
-            return $this->p1 === $this->p2 ? $s . '-All' : $s . '-' . self::P[$this->p2];
-        }
-        if ($this->p1 === $this->p2) {
+        if ($this->isPlayerPointsEqual() && $this->isPlayerPointsMoreThanTwo()) {
             return 'Deuce';
         }
-        $s = $this->p1 > $this->p2 ? $this->p1N : $this->p2N;
-        return ($this->p1 - $this->p2) * ($this->p1 - $this->p2) === 1 ? "Advantage {$s}" : "Win for {$s}";
+
+        if ($this->isPlayer1AndPlayer2PointsLessThanFour()) {
+            return $this->isPlayerPointsEqual()
+                ? self::SCORE[$this->player1Points] . '-All'
+                : self::SCORE[$this->player1Points] . '-' . self::SCORE[$this->player2Points];
+        }
+
+        return $this->isPlayerAdvantage()
+            ? 'Advantage ' . $this->getWinningPlayerName()
+            : 'Win for ' . $this->getWinningPlayerName();
     }
 
     public function wonPoint(string $playerName): void
     {
-        if ($playerName === 'player1') {
-            $this->p1++;
-        } else {
-            $this->p2++;
-        }
+        $this->isPlayerOne($playerName)
+            ? $this->player1Points++
+            : $this->player2Points++;
+    }
+
+    private function isPlayerPointsEqual(): bool
+    {
+        return $this->player1Points === $this->player2Points;
+    }
+
+    private function getWinningPlayerName(): string
+    {
+        return $this->isPlayerOneWinning()
+            ? $this->player1->name()
+            : $this->player2->name();
+    }
+
+    private function isPlayer1AndPlayer2PointsLessThanFour(): bool
+    {
+        return $this->player1Points < 4 && $this->player2Points < 4;
+    }
+
+    /**
+     * Only works after other options are eliminated
+     */
+    private function isPlayerAdvantage(): bool
+    {
+        return abs($this->player1Points - $this->player2Points) === 1;
+    }
+
+    private function isPlayerPointsMoreThanTwo(): bool
+    {
+        return $this->player1Points > 2;
+    }
+
+    private function isPlayerOne(string $playerName): bool
+    {
+        return $playerName === $this->player1->name();
+    }
+
+    private function isPlayerOneWinning(): bool
+    {
+        return $this->player1Points > $this->player2Points;
     }
 }
