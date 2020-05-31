@@ -20,5 +20,16 @@
                 "tests"
             ]
         }
+    },
+    "scripts": {
+        "checkcode": "phpcs app tests --standard=PSR12",
+        "fixcode": "phpcbf app tests --standard=PSR12",
+        "test": "phpunit",
+        "tests": "phpunit",
+        "test-coverage": "phpunit --coverage-html build/coverage",
+        "check-cs": "ecs check app tests --ansi",
+        "fix-cs": "ecs check app tests --fix --ansi",
+        "phpstan": "phpstan analyse --ansi",
+        "rector": "rector process -c rector.yaml --ansi"
     }
 }
