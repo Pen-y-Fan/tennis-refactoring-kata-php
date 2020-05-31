@@ -6,7 +6,7 @@
         "php": "^7.2"
     },
     "require-dev": {
-        "phpunit/phpunit": "^8.0.0",
+        "phpunit/phpunit": "^8.5",
         "phpstan/phpstan": "^0.12.25",
         "phpstan/phpstan-phpunit": "^0.12.10",
         "symplify/easy-coding-standard": "^7.3",
@@ -15,21 +15,24 @@
     },
     "autoload": {
         "psr-4": {
-            "": [
-                ".",
-                "tests"
-            ]
+            "TennisGame\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
         }
     },
     "scripts": {
-        "checkcode": "phpcs app tests --standard=PSR12",
-        "fixcode": "phpcbf app tests --standard=PSR12",
+        "checkcode": "phpcs src tests --standard=PSR12",
+        "fixcode": "phpcbf src tests --standard=PSR12",
         "test": "phpunit",
         "tests": "phpunit",
         "test-coverage": "phpunit --coverage-html build/coverage",
-        "check-cs": "ecs check app tests --ansi",
-        "fix-cs": "ecs check app tests --fix --ansi",
+        "check-cs": "ecs check src tests --ansi",
+        "fix-cs": "ecs check src tests --fix --ansi",
         "phpstan": "phpstan analyse --ansi",
-        "rector": "rector process -c rector.yaml --ansi"
+        "rector": "rector process -c rector.yaml --ansi",
+        "rector:dry-run": "rector process -c rector.yaml --ansi --dry-run"
     }
 }
