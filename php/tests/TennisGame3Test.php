@@ -23,8 +23,11 @@ final class TennisGame3Test extends TestMaster
     /**
      * @dataProvider data
      */
-    public function testScores(int $score1, int $score2, string $expectedResult): void
-    {
+    public function testScores(
+        int $score1,
+        int $score2,
+        string $expectedResult
+    ): void {
         $this->seedScores($score1, $score2);
         $this->assertSame($expectedResult, $this->game->getScore(), "Score: Player1 {$score1} vs player2 {$score2}");
     }
